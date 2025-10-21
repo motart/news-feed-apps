@@ -1,102 +1,153 @@
-# Newsfeed Backend API
+# Newsfeed - Social Media Platform
 
-A serverless social media news feed API built with AWS CDK, Lambda, and DynamoDB.
+A complete social media platform built with AWS serverless architecture and modern frontend technologies.
+
+## Project Structure
+
+This repository contains three main projects:
+
+### 📱 Backend (`/backend`)
+AWS serverless backend infrastructure with:
+- **AWS CDK** for Infrastructure as Code
+- **Lambda Functions** for API endpoints
+- **DynamoDB** for data storage
+- **Cognito** for user authentication
+- **S3 + CloudFront** for media storage
+- **API Gateway** for REST API
+
+[➤ Backend Documentation](./backend/README.md)
+
+### 🌐 Frontend Web (`/frontend-web`)
+React web application with:
+- **React 19** with TypeScript
+- **AWS Amplify** integration
+- **Tailwind CSS** for styling
+- **Infinite scroll** news feed
+- **Responsive design**
+- **Real-time authentication**
+
+[➤ Frontend Web Documentation](./frontend-web/README.md)
+
+### 📱 Frontend Mobile (`/frontend-mobile`)
+React Native mobile application:
+- **Cross-platform** iOS and Android
+- **Native performance**
+- **Camera integration**
+- **Push notifications**
+- **Offline support**
+
+[➤ Frontend Mobile Documentation](./frontend-mobile/README.md) *(Coming Soon)*
 
 ## Features
 
-- User management with Cognito authentication
-- Post creation and retrieval
-- Follow/unfollow relationships
-- Personalized news feeds
-- Media storage with S3 and CloudFront CDN
-- Comprehensive unit tests
+- ✅ **User Authentication** - Sign up, sign in, email verification
+- ✅ **Post Creation** - Share text posts with character limits
+- ✅ **News Feed** - Infinite scroll through followed users' posts
+- ✅ **Follow System** - Follow and unfollow other users
+- ✅ **Real-time Updates** - Fresh content loading
+- ✅ **Responsive Design** - Works on desktop and mobile web
+- 🔄 **Mobile App** - Native iOS and Android experience *(In Development)*
+- 🔄 **Media Posts** - Image and video sharing *(Planned)*
+- 🔄 **Comments & Likes** - Post interactions *(Planned)*
+- 🔄 **Push Notifications** - Real-time alerts *(Planned)*
 
-## Tech Stack
+## Quick Start
 
-- **AWS CDK** - Infrastructure as Code
-- **AWS Lambda** - Serverless functions
-- **Amazon DynamoDB** - NoSQL database
-- **Amazon Cognito** - User authentication
-- **Amazon S3 + CloudFront** - Media storage and CDN
-- **API Gateway** - REST API
-- **TypeScript** - Language
-- **Jest** - Testing framework
-
-## API Endpoints
-
-### Users
-- `POST /users` - Create user
-- `GET /users/{userId}` - Get user profile
-- `GET /users/{userId}/posts` - Get user posts
-
-### Posts
-- `POST /posts` - Create post (authenticated)
-
-### Relationships
-- `POST /users/{userId}/follow` - Follow user (authenticated)
-- `DELETE /users/{userId}/follow` - Unfollow user (authenticated)
-
-### Feed
-- `GET /feed` - Get personalized feed (authenticated)
-
-## Setup
-
-1. Install dependencies:
+### Backend Setup
 ```bash
+cd backend
 npm install
-```
-
-2. Build the project:
-```bash
 npm run build
+npm run deploy  # Deploy to AWS
 ```
 
-3. Deploy to AWS:
+### Frontend Web Setup
 ```bash
-npm run deploy
+cd frontend-web
+npm install
+cp .env.example .env.local  # Configure AWS settings
+npm start  # Development server
+npm run build  # Production build
 ```
 
-## Testing
-
-Run unit tests:
+### Frontend Mobile Setup
 ```bash
-npm test
-```
-
-Run tests with coverage:
-```bash
-npm run test:coverage
-```
-
-## Development
-
-Start TypeScript compiler in watch mode:
-```bash
-npm run watch
-```
-
-Run linter:
-```bash
-npm run lint
-```
-
-Fix linting issues:
-```bash
-npm run lint:fix
+cd frontend-mobile
+# Coming soon - React Native setup
 ```
 
 ## Architecture
 
-The backend uses a serverless architecture with:
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Web     │    │  React Native   │    │   Admin Panel   │
+│   Frontend      │    │   Mobile App    │    │   (Future)      │
+└─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘
+          │                      │                      │
+          └──────────────────────┼──────────────────────┘
+                                 │
+                    ┌─────────────┴───────────┐
+                    │     API Gateway         │
+                    │   (REST Endpoints)      │
+                    └─────────────┬───────────┘
+                                  │
+                    ┌─────────────┴───────────┐
+                    │   Lambda Functions      │
+                    │   (Business Logic)      │
+                    └─────────────┬───────────┘
+                                  │
+        ┌─────────────────────────┼─────────────────────────┐
+        │                         │                         │
+┌───────┴────────┐    ┌──────────┴───────┐    ┌─────────────┴──────┐
+│   DynamoDB     │    │     Cognito      │    │   S3 + CloudFront  │
+│   (Database)   │    │ (Authentication) │    │   (Media Storage)   │
+└────────────────┘    └──────────────────┘    └────────────────────┘
+```
 
-- **DynamoDB Tables**: Users, Posts, Relationships, Likes, Comments, Feeds
-- **Lambda Functions**: Individual functions for each API endpoint
-- **API Gateway**: RESTful API with Cognito authorization
-- **S3 + CloudFront**: Media storage and global CDN
+## Development Workflow
 
-## Security
+1. **Backend Development**
+   - Modify infrastructure in `/backend/src/infrastructure/`
+   - Add Lambda functions in `/backend/src/lambda/`
+   - Write tests in `/backend/test/`
+   - Deploy with `npm run deploy`
 
-- All authenticated endpoints require valid Cognito JWT tokens
-- Input validation and sanitization
-- Private S3 bucket with CloudFront OAI
-- CORS configuration for web clients
+2. **Frontend Web Development**
+   - Develop components in `/frontend-web/src/components/`
+   - Update API integration in `/frontend-web/src/services/`
+   - Test locally with `npm start`
+   - Build for production with `npm run build`
+
+3. **Frontend Mobile Development**
+   - *Coming Soon* - React Native development workflow
+
+## Environment Configuration
+
+Each project requires specific environment variables:
+
+- **Backend**: AWS credentials and region
+- **Frontend Web**: AWS Cognito and API Gateway endpoints
+- **Frontend Mobile**: Similar to web plus native configurations
+
+See individual project READMEs for detailed setup instructions.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes in the appropriate project folder
+4. Add tests for new functionality
+5. Ensure all projects build successfully
+6. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Roadmap
+
+- [x] **Phase 1**: Backend infrastructure and API
+- [x] **Phase 2**: Web frontend application
+- [ ] **Phase 3**: Mobile application with React Native
+- [ ] **Phase 4**: Advanced features (media, notifications, analytics)
+- [ ] **Phase 5**: Admin dashboard and content moderation
